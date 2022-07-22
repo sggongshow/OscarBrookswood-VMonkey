@@ -6,7 +6,7 @@
 // @include     *ForwardDemographicTickler.do?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version	    22.07.21.0
+// @version	    22.07.22.0
 // ==/UserScript==
 
 //brookswood
