@@ -4,11 +4,12 @@
 // @description Various navigation buttons for echart screen.  Set your own specific fid (form number) or Measurement groupName
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @include     */casemgmt/forward.jsp?action=view&demographic*
-// @version     22.06.06.0
+// @include     *oscarEncounter/IncomingEncounter.do?*
+// @version     22.07.22.0
 // ==/UserScript==
 //window.moveTo(300, 100)
 
+//brookswood
 
 // @require https://code.jquery.com/jquery-1.7.2.min.js
 function setCookie(cname, cvalue, exdays, cpath)
@@ -96,8 +97,8 @@ function showAlert3()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=1173&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
-  var formPath2 = vPath + '/eform/efmformadd_data.jsp?fid=1088&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=136&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath2 = vPath + '/eform/efmformadd_data.jsp?fid=173&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
 
   var popup1 = window.open(formPath,'Popup_Window5a', 'width=800,height=800,left = 0,top = 0')
   var popup2 = window.open(formPath2,'Popup_Window5b', 'width=800,height=800,left = 0,top = 0')
@@ -136,7 +137,7 @@ function showAlert6()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=1157&demographic_no=' + demo_no // INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=208&demographic_no=' + demo_no // INSERT YOU OWN form ID (fid=??) here
   //alert(formPath)
   window.open(formPath,'Popup_Window2', 'width=800,height=800,left = 0,top = 0')
 }
@@ -180,7 +181,7 @@ function showAlert8()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=923&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=167&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
   //alert(formPath)
   window.open(formPath,'Popup_Window4', 'width=800,height=800,left = 0,top = 0')
 }
@@ -304,7 +305,7 @@ function showAlert13()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=775&demographic_no=' + demo_no + '&appointment=' + ApptNum//alert(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=207&demographic_no=' + demo_no + '&appointment=' + ApptNum//alert(formPath)
   window.open(formPath, 'Popup_Window7', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 var input14 = document.createElement('input');
@@ -319,7 +320,7 @@ function showAlert14()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=1133&demographic_no=' + demo_no + '&appointment=' + ApptNum//var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=6&demographic_no=' + demo_no + '&appointment=' + ApptNum//var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
   //alert(formPath)
   window.open(formPath, 'Popup_Window8', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
@@ -335,7 +336,7 @@ function showAlert15()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=1161&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//alert(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=108&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//alert(formPath)
   window.open(formPath, 'Popup_Window9', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 
@@ -351,7 +352,7 @@ function showAlert16()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=1182&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//window.open(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=197&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//window.open(formPath)
   window.open(formPath, 'Popup_Window10', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 
@@ -384,7 +385,7 @@ function showAlert50()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=1193&demographic_no=' + demo_no + '&appointment=' + ApptNum//window.open(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=52&demographic_no=' + demo_no + '&appointment=' + ApptNum//window.open(formPath)
   window.open(formPath, 'Popup_Window12', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 
