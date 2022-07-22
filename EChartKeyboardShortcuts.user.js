@@ -2,11 +2,13 @@
 // @name           EChart_KeyboardShortcuts
 // @namespace      Gong Oscar
 // @description Various Echart shortcut buttons (Alt+ e,v,z,x,k,s,0,1,2,3,4,5,7). Set your own Measurement groupName and default population text.
-// @include        */casemgmt/forward.jsp?action=view&demographic*
+// @include        *oscarEncounter/IncomingEncounter.do?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			22.05.17.2
+// @version			22.07.19.0
 // ==/UserScript==
+
+//Brookswood
 
 function setCookie(cname, cvalue, exdays, cpath)
 {
@@ -48,12 +50,12 @@ document.addEventListener('keydown', function(theEvent) {
 	switch(true){
       
      case theAltKey && theKey==='q': //Show med list
- 			$('#Rx > div:nth-child(3) > h3:nth-child(1) > a:nth-child(1)').click()
+ 			$('#Rx > div:nth-child(2) > h3:nth-child(1) > a:nth-child(1)').click()
 			break;
       
       
 		case theAltKey && theKey==='w': //Repeat Meds (Meds+)
- 			$('#Rx > div:nth-child(2) > h3:nth-child(1) > a:nth-child(1)').click()
+ 			$('#Rx > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
 			break;
       
     case theAltKey && theKey==='s': //save, sign and bill
@@ -76,7 +78,7 @@ document.addEventListener('keydown', function(theEvent) {
 			break;
       
     case theAltKey && theKey==='f': //Medical Hx
- 			$('a[href="#"][onclick*="showIssueHistory"][onclick*="61\')"]')[0].click()
+ 			$('a[onclick*="cppNote.showIssueHistory"][onclick*="67"]')[0].click()
 			break;
        
       /*
@@ -121,16 +123,13 @@ document.addEventListener('keydown', function(theEvent) {
       	break
       
      	case theAltKey && theKey==='2': // new Tickler
-				$('#tickler > div:nth-child(2) > h3:nth-child(1) > a:nth-child(1)').click()
+				$('#tickler > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
       	break
       
       case theAltKey && theKey==='3': //Documents
-				 $('#docs > div:nth-child(3) > h3:nth-child(1) > a:nth-child(1)').click()
+				 $('#docs > div:nth-child(2) > h3:nth-child(1) > a:nth-child(1)').click()
       	break
       
-      case theAltKey && theKey==='4': //Diease
-     		 $('#Dx > div:nth-child(3) > h3:nth-child(1) > a:nth-child(1)').click()
-      	break
       
       
   		default:
