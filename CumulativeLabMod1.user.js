@@ -4,7 +4,7 @@
 // @include     *lab/CumulativeLabValues.jsp*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version 	22.07.22.2
+// @version 	22.07.22.1
 // ==/UserScript==
 //========Get Path============
 
@@ -363,8 +363,10 @@ function sortDate(arrayDate){
 function toggleTableVis(){
   
   var labGrid = $('#cumulativeLab')[0]
+  var loadingText = $('#loadingDiv')[0]
   //console.log("toggle" + labGrid.hidden + " to " + !labGrid.hidden)
  	labGrid.hidden = !labGrid.hidden
+  loadingText.hidden = !loadingText.hidden
 }
 //---------------
 //wait for all labs data to be loaded before modifying and putting colors around it. 
@@ -753,6 +755,16 @@ function replaceHeadClass(){
   }
 }
 
+function createLoadingDiv(){
+  var canvas = $(".MainTableRightColumn")[0]
+  var newDiv = document.createElement('div')
+  newDiv.setAttribute("id", "loadingDiv");
+  newDiv.hidden = true
+  var newContent = document.createTextNode("LOADING LABS, PLEASE WAIT..... the more labs the longer it takes :)");
+  newDiv.appendChild(newContent)
+  canvas.appendChild(newDiv)
+}
+
 //Get colum of multiple dim aray
 function getCol(matrix, col){
        var column = [];
@@ -961,6 +973,7 @@ function HepFunc() {
 function AllFunc() {
   //console.log('show all labs')
   EraseArea()
+  createLoadingDiv()
   LoadMatchedArr(myLabArray)
   //replaceHeadClass()
   //console.log("waiting for lab load ...")
