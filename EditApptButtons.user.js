@@ -5,9 +5,10 @@
 // @include     *appointmentcontrol.jsp*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			22.05.17.2
+// @version			22.07.22.0
 // ==/UserScript==
 
+//brookswood
 
 //wait window load first
 
@@ -20,7 +21,7 @@ window.addEventListener('load', function() {
   DoneBut.type = 'button';
   DoneBut.id = 'doneButton'
   DoneBut.name = 'doneButton'
-  DoneBut.value = 'DONE'
+  DoneBut.value = 'Finished'
   DoneBut.onclick = DoneButFunc
   DoneBut.setAttribute('style', 'width:60px;font-size:12px;z-index:1;position:fixed;top:0px;right:0px; background-color:#66ff66;');
   document.body.appendChild(DoneBut);
@@ -48,7 +49,7 @@ window.addEventListener('load', function() {
   ConfirmBut.type = 'button';
   ConfirmBut.id = 'ConfirmButton'
   ConfirmBut.name = 'ConfirmButton'
-  ConfirmBut.value = 'Comfirm'
+  ConfirmBut.value = 'To Do'
   ConfirmBut.onclick = ConfirmButFunc
   ConfirmBut.setAttribute('style', 'width:60px;font-size:12px;z-index:1;position:fixed;top:75px;right:0px; background-color:yellow;');
   document.body.appendChild(ConfirmBut);
@@ -82,11 +83,11 @@ document.addEventListener('keydown', function(theEvent) {
 
 function DoneButFunc(){
   var statusSelector = $('select[name="status"]')[0]
-  statusSelector.value = findStatus("Done")
+  statusSelector.value = findStatus("Finished")
 }
 function NoShowButFunc(){
   var statusSelector = $('select[name="status"]')[0]
-  statusSelector.value = findStatus("No show")
+  statusSelector.value = findStatus("No Show")
 }
 function BilledButFunc(){
   var statusSelector = $('select[name="status"]')[0]
@@ -94,7 +95,7 @@ function BilledButFunc(){
 }
 function ConfirmButFunc(){
   var statusSelector = $('select[name="status"]')[0]
-  statusSelector.value = findStatus("Confirmed")
+  statusSelector.value = findStatus("To Do")
 }
 function findStatus(statusText){
   var value = ''
