@@ -7,7 +7,7 @@
 // @include     *lab/CA/ALL/labDisplay.jsp?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			22.05.17.2
+// @version			22.07.22.0
 // ==/UserScript==
 //window.moveTo(300, 100)
 
@@ -66,12 +66,12 @@ document.addEventListener('keydown', function(theEvent) {
     case theAltKey && theKey==='w': //fwd page
       
       var button = $('[id*="nextP"]')[0]
-      //console.log(button)
+      console.log(button)
 			//check if button is visible	
 			var visible = true
       
      	var styleVal = button.getAttribute("style")
-      //console.log(styleVal)
+      console.log(styleVal)
       if (styleVal != null){
       	if (styleVal.includes("inline") == false ){
         visible = false
