@@ -4,7 +4,7 @@
 // @include     *lab/CumulativeLabValues.jsp*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version 	22.05.17.2
+// @version 	22.07.22.1
 // ==/UserScript==
 //========Get Path============
 
@@ -364,12 +364,12 @@ function toggleTableVis(){
   
   var labGrid = $('#cumulativeLab')[0]
   //console.log("toggle" + labGrid.hidden + " to " + !labGrid.hidden)
- 	labGrid.hidden = !labGrid.hidden
+ 	//labGrid.hidden = !labGrid.hidden
 }
 //---------------
 //wait for all labs data to be loaded before modifying and putting colors around it. 
 function waitLabLoad(){
-  console.log("waiting for labs to load - in function")
+  //console.log("waiting for labs to load - in function")
 	var tableDiv = $('#cumulativeLab')[0]
   var tableChildren = tableDiv.children
   //console.log(tableChildren)
@@ -384,7 +384,7 @@ function waitLabLoad(){
   if (failed == 1){
     		setTimeout(function(){ waitLabLoad() }, 500);
   }else{
-  	console.log('finished waiting load labs')
+  	//console.log('finished waiting load labs')
     expandLabName()
     //console.log("after expand")
   	getDate()
@@ -396,8 +396,9 @@ function waitLabLoad(){
 
 //----- Expands the lab name column so it isn't cut offf
 //----- Removes the ones with no lab values
+//----- Changes Ferritin color
 function expandLabName(){
-  console.log("expand lab name")
+  //console.log("expand lab name")
   var labBoxArr = $("a[id*=ahead][id*=\\.]")
   //console.log(labBoxArr)
 	for (var i=0; i<labBoxArr.length; i++){//labBoxArr.length
@@ -405,13 +406,20 @@ function expandLabName(){
     var LabName = labBoxArr[i].title.split('header')[1]
     LabName = LabName.split(']')[0]
     LabName = LabName.split('[')[1]
-    //console.log(LabName)
+    //console.log(labBoxArr[i])
     
     var PreText = RawHTML.split('>')[0] + '>'
     var PostText = '</' + RawHTML.split('</')[1]
     labBoxArr[i].innerHTML = PreText + LabName + PostText
+    
+   // change ferritn color 
+    if (LabName == "Ferritin"){
+            labBoxArr[i].parentElement.style.border = "5px solid pink"
+    }
+    
   }
   
+  //Remove rows that are empty 
   var sectionDivs = $('div[id*=preventionSection][id*=\\.]')
   for (i=0; i<sectionDivs.length; i++){//sectionDivs.length
      //console.log("finding empty")
@@ -422,7 +430,7 @@ function expandLabName(){
    }
   
   
-  console.log("finished expandname")
+  //console.log("finished expandname")
 }
 
 //---- Array of every lab value's ID and it's Date. Also makes list of Top Dates
@@ -472,11 +480,10 @@ function labTextMod(){
   	var RawText = LabDateRawArr[i].innerHTML
     var labRange = LabDateRawArr[i].title.split('body=[')[1]
     labRange = labRange.split(']')[0]
-    labRange = labRange.substring(labRange.indexOf(' '))
+    labRange = labRange.substring(labRange.lastIndexOf(' '))
 
     labRange = labRange.replace(/\s/g, ''); //Extra spaces in the reference range string causes issues
-    
-		//console.log(RawText)
+
     //removal of times and bolding of values
     if (RawText.indexOf('</b>')>=0){
       //console.log('firstcol')
@@ -642,8 +649,9 @@ function SortArea(){
 }
 ///Check if the result is within range and color it pink if it is out of range
 function checkRange(){
+  console.log("check range")
 	var LabDateRawArr = $('div[id*=preventionProcedure]')
-  
+  //console.log(LabDateRawArr)
   
 	console.log("check if labs in rage")
   for (var i=0; i<LabDateRawArr.length; i++){
@@ -655,6 +663,7 @@ function checkRange(){
     var valueStr = raw.split('(')[0].trim()
     var reference = raw.split("(")[1].split(")")[0]
     //reference = reference.replace(/\s/g, '');
+    //console.log(raw)
     
     let inBound = true
   
@@ -696,9 +705,13 @@ function checkRange(){
       if(value<min || value > max){
         inBound = false 
       }
+    }else if (raw.includes("(0)")){ //if value is zero expected
+      if (value != 0){
+        inBound = false
+      } 
     }else{
-      console.log("value: " + valueStr)
-    	console.log(reference)
+      //console.log("value: " + valueStr)
+    	//console.log(reference)
       if (valueStr != reference){
         inBound = false 
       }
@@ -727,11 +740,16 @@ function checkRange(){
 
 
 function replaceHeadClass(){
+  console.log("replace headers")
   var LabHeaders = $('div[id*=headPrevention0][class*=headPrevention]')
-  //console.log(LabHeaders)
+  console.log(LabHeaders)
   for (var i=0; i<LabHeaders.length; i++){
     	LabHeaders[i].className= 'headPrevention'
     	//console.log(LabHeaders[i].class)
+  //Change color for ferritin numbers
+  
+  
+
   }
 }
 
@@ -907,7 +925,7 @@ function getMeasures(measure, arrayno) {
 
 function CdmFunc() {
   EraseArea()
-  console.log("cdmFuc")
+  //console.log("cdmFuc")
   var LabIDArray = getCol(myLabArray,2)
 	var MatchedArr = arrayMatch(CDMArray,LabIDArray)
   //console.log(MatchedArr)
@@ -923,7 +941,7 @@ function CbcFunc() {
 }
 function InfFunc() {
   EraseArea()
-  console.log("InfFunc")
+  //console.log("InfFunc")
   var LabIDArray = getCol(myLabArray,2)
 	var MatchedArr = arrayMatch(INFArray,LabIDArray)
   LoadMatchedArr(MatchedArr)
@@ -941,17 +959,17 @@ function HepFunc() {
 
 }
 function AllFunc() {
-  console.log('show all labs')
+  //console.log('show all labs')
   EraseArea()
   LoadMatchedArr(myLabArray)
-  //setTimeout(function(){ replaceHeadClass() }, 2000);
-  console.log("waiting for lab load ...")
+  //replaceHeadClass()
+  //console.log("waiting for lab load ...")
   window.setTimeout(function(){ waitLabLoad() }, 1000);
-  console.log("delaycheck")
+  //console.log("delaycheck")
  
 }
 function ByDate() {
-  console.log("bydateButton")
+  //console.log("bydateButton")
   SortArea()
   //EraseArea()
   //LoadMatchedArr(myLabArray)
