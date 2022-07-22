@@ -6,19 +6,19 @@
 // @include     *ForwardDemographicTickler.do?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version	22.05.17.5
+// @version	    22.07.21.0
 // ==/UserScript==
 
+//brookswood
 
 //wait window load first
 
-var myIDNum = '37250'
+var myIDNum = '59'
 
 window.addEventListener('load', function() {
   
 
-  $('a[title="Show/Hide Date Quickpick Options"]')[0].click()
-	
+  
   var MeBut = document.createElement('input');
   MeBut.type = 'button';
   MeBut.id = 'meButton'
@@ -38,10 +38,9 @@ window.addEventListener('load', function() {
 	document.body.appendChild(HiBut);
   
    //Default Tickler
-  var LocationAssign = $('select[name=site]')[0]
-  LocationAssign.value = 1
   var taskAssign = $('select[name=task_assigned_to]')[0]
-  taskAssign.value = 114
+  console.log(taskAssign)
+  taskAssign.value = 20
   
   
   //--------- select the textbox area so I can start typing immediately
