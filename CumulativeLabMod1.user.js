@@ -364,7 +364,7 @@ function toggleTableVis(){
   
   var labGrid = $('#cumulativeLab')[0]
   //console.log("toggle" + labGrid.hidden + " to " + !labGrid.hidden)
- 	//labGrid.hidden = !labGrid.hidden
+ 	labGrid.hidden = !labGrid.hidden
 }
 //---------------
 //wait for all labs data to be loaded before modifying and putting colors around it. 
