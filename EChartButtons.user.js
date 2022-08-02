@@ -5,7 +5,8 @@
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
-// @version     22.07.22.0
+// @include     *casemgmt/forward.jsp?*
+// @version     22.08.02.0
 // ==/UserScript==
 //window.moveTo(300, 100)
 
