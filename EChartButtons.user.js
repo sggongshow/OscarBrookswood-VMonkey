@@ -6,11 +6,14 @@
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
 // @include     *casemgmt/forward.jsp?*
-// @version     22.08.02.0
+// @version     24.07.04.0
 // ==/UserScript==
 //window.moveTo(300, 100)
 
-//brookswood
+//CLAYTON
+//Changelong
+// 24.07.04.0 - modified for clayton the clinic
+
 
 // @require https://code.jquery.com/jquery-1.7.2.min.js
 function setCookie(cname, cvalue, exdays, cpath)
@@ -98,11 +101,11 @@ function showAlert3()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=136&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
-  var formPath2 = vPath + '/eform/efmformadd_data.jsp?fid=173&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=145&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  //var formPath2 = vPath + '/eform/efmformadd_data.jsp?fid=173&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
 
   var popup1 = window.open(formPath,'Popup_Window5a', 'width=800,height=800,left = 0,top = 0')
-  var popup2 = window.open(formPath2,'Popup_Window5b', 'width=800,height=800,left = 0,top = 0')
+  //var popup2 = window.open(formPath2,'Popup_Window5b', 'width=800,height=800,left = 0,top = 0')
 
 }
 var input4 = document.createElement('input');
@@ -182,7 +185,7 @@ function showAlert8()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=167&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=12&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
   //alert(formPath)
   window.open(formPath,'Popup_Window4', 'width=800,height=800,left = 0,top = 0')
 }
@@ -321,7 +324,7 @@ function showAlert14()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=6&demographic_no=' + demo_no + '&appointment=' + ApptNum//var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=103&demographic_no=' + demo_no + '&appointment=' + ApptNum//var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
   //alert(formPath)
   window.open(formPath, 'Popup_Window8', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
@@ -337,7 +340,7 @@ function showAlert15()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=108&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//alert(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=4&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//alert(formPath)
   window.open(formPath, 'Popup_Window9', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 
@@ -386,7 +389,7 @@ function showAlert50()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=52&demographic_no=' + demo_no + '&appointment=' + ApptNum//window.open(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=169&demographic_no=' + demo_no + '&appointment=' + ApptNum//window.open(formPath)
   window.open(formPath, 'Popup_Window12', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 
