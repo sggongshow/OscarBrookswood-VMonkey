@@ -6,7 +6,7 @@
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
 // @include     *casemgmt/forward.jsp?*
-// @version     24.07.04.1
+// @version     24.07.04.2
 // ==/UserScript==
 //window.moveTo(300, 100)
 
@@ -141,7 +141,7 @@ function showAlert6()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=208&demographic_no=' + demo_no // INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=198&demographic_no=' + demo_no // INSERT YOU OWN form ID (fid=??) here
   //alert(formPath)
   window.open(formPath,'Popup_Window2', 'width=800,height=800,left = 0,top = 0')
 }
@@ -200,7 +200,7 @@ function showAlert9()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=977&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=94&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
   //alert(formPath)
   window.open(formPath,'Popup_Window5', 'width=800,height=800,left = 0,top = 0')
 }
@@ -356,7 +356,7 @@ function showAlert16()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=197&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//window.open(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=153&demographic_no=' + demo_no + '&parentAjaxId=eforms' + '&appointment=' + ApptNum//window.open(formPath)
   window.open(formPath, 'Popup_Window10', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 
