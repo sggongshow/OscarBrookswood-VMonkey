@@ -4,11 +4,24 @@
 // @include     *lab/CumulativeLabValues.jsp*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version 	22.07.22.5
+// @version 	24.06.24.0
 // ==/UserScript==
 //========Get Path============
 
-// NOTE TO SELF: MAIN GITHUB FOLDER MODIFICATIONS. NO REFERENCE TO SUBFOLDERS OR BRANCES
+//Changelog
+//24.06.24.0 - added more to removeUnwanted
+//24.06.13.0 - added more to removeUnwanted
+//24.04.09.0 - added more to removeUnwanted
+//24.02.23.0 - added more to removeUnwanted
+//24.01.22.1 - added few more words to removeUnwanted
+//23.08.15.1 - added 'holter', 'mammo' to removeUnwanted function
+//23.07.28.0 - added 'ecg' to removeUnwanted function
+//23.05.04.1 - added "breast" to filter out mammograms pdfs in labs. 
+//23.03.18.0 - PROGRAMMED FOR QUIPO - problems with lab range as connected with text with no spacing. fixed. with regex
+//22.12.08.1 - programmed for new vanilla oscar19
+//- note, Getdate() will need to be modified depending on date format. curretly unchanged until vanilla oscar19 runnig
+//22.12.08.0- well health broke it. doesn't work with them anymore due to long delay in getting data
+//
 
 //===============================
 //var mylink = 'eform/efmshowform_data.jsp?fid='+formID
@@ -121,7 +134,7 @@ var INFArray = [
   '5353-8'
 ]
 var CBCArray = [
-  
+
   '6690-2',
   '789-8',
   '718-7',
@@ -170,7 +183,7 @@ var CDMArray = [
   '718-7',
   '1988-5',
   'X10367' //Hb
-  
+
 ]
 
 window.resizeTo(1200, 780);
@@ -207,8 +220,16 @@ var labDatesArr = []
 //-----------------------------------------------------------------------
 var DisplayArea = document.getElementById('cumulativeLab')
 
-
-
+/*for reference only. do not uncomment code. ever. Shows function order for ALL Labs display button
+  //console.log('show all labs')
+  EraseArea()
+  createLoadingDiv()
+  LoadMatchedArr(myLabArray)
+  //replaceHeadClass()
+  //console.log("waiting for lab load ...")
+  window.setTimeout(function(){ waitLabLoad() }, 1000);
+  //console.log("delaycheck")
+*/
 
 //Not sure why i need URL parameters
 var elements = (window.location.pathname.split('/', 2))
@@ -218,16 +239,16 @@ var params = {
 };
 
 ///// CHUNK 2 START
-//Gets the RAW Lab data array from left side
+//Gets the RAW Lab data array from left side. break it into parts
 if (location.search) {
   var parts = location.search.substring(1).split('&');
-  
+
   for (var i = 0; i < parts.length; i++) {
     var nv = parts[i].split('=');
     if (!nv[0]) continue;
     params[nv[0]] = nv[1] || true;
   }
-  
+
   f = $('.leftBox').html() //left labs tab HTML
   var parts = f.split('</li>'); //Array of each lab row on left tab
   //console.log(parts)
@@ -237,7 +258,7 @@ if (location.search) {
   //for (i = 0; i < parts.length - 1; i++) { //Creation of myLabArray with 3 other values
     //myLabArray[i] = new Array(3)
   //}
-  
+
   for (i = 0; i < parts[i].length; i++) { //parts[i].length
 
     //console.log(parts[i])
@@ -254,14 +275,14 @@ if (location.search) {
       break;
     }
     myArray[i] = searchstring + parts[i].trim()
-    
+
   }
   //console.log(myArray)
   //myArray.sort()
-  
 
-  
-  
+
+
+
 }
 //Create New Array of labs that are alphabetically sorted with checkboxes
 var Newlist = ''
@@ -285,6 +306,7 @@ for (i = 0; i < myArray.length; i++) {
   Newlist = Newlist + myArray[i] // alert(Newlist)
 }
 
+//console.log(Newlist)
 ///////CHUNK 2 END
 
 Cumulative()
@@ -326,13 +348,154 @@ setTimeout(function(){radioBtn5.click() }, 300)
 //--------------------------------------------------------------------------------
 //FUNCTIONS
 //---------------------------------------------------------------------------------------
+//Show the buttons.
+function CdmFunc() {
+  EraseArea()
+  //console.log("cdmFuc")
+  var LabIDArray = getCol(myLabArray,2)
+	var MatchedArr = arrayMatch(CDMArray,LabIDArray)
+  //console.log(MatchedArr)
+  LoadMatchedArr(MatchedArr)
+  setTimeout(function(){ waitLabLoad() }, 1000);
+}
+function CbcFunc() {
+  EraseArea()
+  var LabIDArray = getCol(myLabArray,2)
+	var MatchedArr = arrayMatch(CBCArray,LabIDArray)
+  LoadMatchedArr(MatchedArr)
+  setTimeout(function(){ waitLabLoad() }, 1000);
+}
+function InfFunc() {
+  EraseArea()
+  //console.log("InfFunc")
+  var LabIDArray = getCol(myLabArray,2)
+	var MatchedArr = arrayMatch(INFArray,LabIDArray)
+  LoadMatchedArr(MatchedArr)
+  setTimeout(function(){ waitLabLoad() }, 1000);
+}
+function HepFunc() {
+  /*EraseArea()
+  console.log("HepFunc")
+  var LabIDArray = getCol(myLabArray,2)
+	var MatchedArr = arrayMatch(HEPArray,LabIDArray)
+  LoadMatchedArr(MatchedArr)
+  setTimeout(function(){ waitLabLoad() }, 1000);
+  */
+  //checkRange()
+
+}
+function AllFunc() {
+  //console.log('show all labs')
+  EraseArea()
+  createLoadingDiv()
+  LoadMatchedArr(myLabArray)
+  //replaceHeadClass()
+  //console.log("waiting for lab load ...")
+  window.setTimeout(function(){ waitLabLoad() }, 1000);
+  //console.log("delaycheck")
+
+}
+function ByDate() {
+  //console.log("bydateButton")
+  SortArea()
+  //EraseArea()
+  //LoadMatchedArr(myLabArray)
+  //setTimeout(function(){ waitLabLoad() }, 1000);
+}
+
+function Cumulative() {
+  //console.log('cumulative')
+  //console.log(parts.length)
+  //console.log(parts)
+  //console.log(myLabArray)
+  for (i = 0; i < parts.length; i++) {
+  //for (i = 29; i < parts.length; i++) {   //testing purposes only
+    parts[i]= parts[i].trim()
+
+    if(parts[i].indexOf('addLabToProfile2(') < 0){
+      continue
+    }
+
+    var frontRemoved = parts[i].split('addLabToProfile2(')[1]
+
+    var indexLastBrac = frontRemoved.lastIndexOf(');')
+    var backRemoved = frontRemoved.substring(0,indexLastBrac)
+    backRemoved = backRemoved.replace("\\/", "/");
+
+    var noquote = backRemoved.replace(/'/g, '');
+    var FinalArray = noquote.split(',')
+    //console.log(FinalArray)
+    var name = FinalArray[1]
+    var Code = FinalArray[2]
+    var HL7 = FinalArray[0]
+
+
+    var tempArr = [name,HL7,Code]
+    //console.log(tempArr)
+		myLabArray.push(tempArr)
+    //myLabArray[i][1] = HL7
+    //myLabArray[i][0] = name
+    //myLabArray[i][2] = Code
+
+
+  }
+
+  removeUnwanted()
+}
+
+//Removed lines that are weird info and not labs
+function removeUnwanted() {
+  		//console.log('remove unwanted')
+  		var unwantedWords = ['physician', 'report', 'history', 'notification', 'consultation', 'breast', 'ultrasound',
+				     'holter', 'mammo', 'other','colonoscopy','pathology', 'note', 'progress',
+                           	     'surgical','operation', 'discharge','date','referred','ecg', 'egd',
+				     'consult', 'scopy', 'scope', 'summary', 'treat', 'med', 'exam'] //'exam'
+      for (i = myLabArray.length -1  ; i >= 0 ; i--) {
+				var toDelete = 0
+    		for (j = 0; j < unwantedWords.length; j++) {
+                if (myLabArray[i][0].toLowerCase().indexOf(unwantedWords[j]) >= 0){
+                    toDelete = 1
+                    //console.log('removed ' + name)
+                }
+            }
+        if (toDelete == 1){
+         	//console.log('removed ' + myLabArray[i][0])
+         	myLabArray.splice(i,1)
+        }
+      }
+     //console.log(myLabArray)
+}
+
+//----------------------------------- End of functions run on initiation of script
+
+//---------------
+//Pass the array of labs to show on the screen. 3 column array. In order you want it
+//Calls the native function that will request for the information to be displayed on screen
+//---------------
+function LoadMatchedArr(ArrayToLoad){   //myLabArray is default
+    console.log("addinglabs to profile")
+    //console.log(ArrayToLoad)
+    toggleTableVis()
+    //for(var i=0; i<2; i++){ ///testing purposes shortened vesion
+  	for(var i=0; i<ArrayToLoad.length; i++){
+      //console.log(ArrayToLoad[i])
+      if (ArrayToLoad[i][2].includes("")== true) { //Gets rid of non-labs. like PDF and Reports-------------------------------MAY BE SOURCE OF PROBLEM DEPEND ON HLA NUMBERING, previously all HLA numbers had a "-"
+        //console.log(ArrayToLoad[i])
+  			unsafeWindow.addLabToProfile2(ArrayToLoad[i][1],ArrayToLoad[i][0],ArrayToLoad[i][2])
+      	//var LabElement = addLabToProfile3(ArrayToLoad[i][1],ArrayToLoad[i][0],ArrayToLoad[i][2])
+
+        //console.log(LabElement)
+      	}
+    	}
+}
+
 function EraseArea(){
   DisplayArea.innerHTML=''
 }
 
 function topDatesReset(){
  topDates = [
-  new Date('1990-01-01'), 
+  new Date('1990-01-01'),
   new Date('1990-02-01'),
   new Date('1990-03-01'),
   new Date('1990-04-01'),
@@ -347,7 +510,7 @@ function topDatesReset(){
   new Date('1990-07-08'),
   new Date('1990-07-09'),
   new Date('1990-07-20')
-  ] 
+  ]
 }
 
 function sortDate(arrayDate){
@@ -361,27 +524,27 @@ function sortDate(arrayDate){
 //toggle visibility of the table. When visible interactions while running the modification
 //codes stops the code
 function toggleTableVis(){
-  
+
   var labGrid = $('#cumulativeLab')[0]
   var loadingText = $('#loadingDiv')[0]
-  //console.log("toggle" + labGrid.hidden + " to " + !labGrid.hidden)
  	labGrid.hidden = !labGrid.hidden
   loadingText.hidden = !loadingText.hidden
 }
-//---------------
-//wait for all labs data to be loaded before modifying and putting colors around it. 
+//------------------------------------------------------------------------------------------------------------------------------------------- Major code section part 2, data manipulation
+//wait for all labs data to be loaded before modifying and putting colors around it.
+//-------------------------------------------------------------------------------------------------------------------------------------------
 function waitLabLoad(){
   //console.log("waiting for labs to load - in function")
 	var tableDiv = $('#cumulativeLab')[0]
   var tableChildren = tableDiv.children
   //console.log(tableChildren)
   var failed = 0
-  
+
   for (i=0; i<tableChildren.length; i++){
     if (tableChildren[i].innerHTML.indexOf('pinwheel')>=0){
      		 failed = 1
     }
-    
+
   }
   if (failed == 1){
     		setTimeout(function(){ waitLabLoad() }, 500);
@@ -390,7 +553,7 @@ function waitLabLoad(){
     expandLabName()
     //console.log("after expand")
   	getDate()
-    //console.log("get date done")
+    //console.log("get date done") ===============================================================================================Turn back on
     setTimeout(function(){labTextMod() }, 400)
     //getDate()
   }
@@ -400,7 +563,7 @@ function waitLabLoad(){
 //----- Removes the ones with no lab values
 //----- Changes Ferritin color
 function expandLabName(){
-  //console.log("expand lab name")
+  console.log("expand lab name")
   var labBoxArr = $("a[id*=ahead][id*=\\.]")
   //console.log(labBoxArr)
 	for (var i=0; i<labBoxArr.length; i++){//labBoxArr.length
@@ -409,41 +572,41 @@ function expandLabName(){
     LabName = LabName.split(']')[0]
     LabName = LabName.split('[')[1]
     //console.log(labBoxArr[i])
-    
+
     var PreText = RawHTML.split('>')[0] + '>'
     var PostText = '</' + RawHTML.split('</')[1]
     labBoxArr[i].innerHTML = PreText + LabName + PostText
-    
-   // change ferritn color 
+
+   // change ferritn color
     if (LabName == "Ferritin"){
             labBoxArr[i].parentElement.style.border = "5px solid pink"
     }
-    
+
   }
-  
-  //Remove rows that are empty 
+
+  //Remove rows that are empty
   var sectionDivs = $('div[id*=preventionSection][id*=\\.]')
   for (i=0; i<sectionDivs.length; i++){//sectionDivs.length
      //console.log("finding empty")
      var children = sectionDivs[i].children
-     if (children.length <=1){    	
-       //sectionDivs[i].remove()    
+     if (children.length <=1){
+       //sectionDivs[i].remove()
      }
    }
-  
-  
+
+
   //console.log("finished expandname")
 }
 
 //---- Array of every lab value's ID and it's Date. Also makes list of Top Dates
 function getDate(){
-  
   topDatesReset()
   visibleLabValueArr = []
-  
+
   console.log('getdate')
   var LabDateRawArr = $('div[id*=preventionProcedure]')
-	
+  //console.log(LabDateRawArr)
+
   for (var i=0; i<LabDateRawArr.length; i++){ //LabDateRawArr.length
     var id = LabDateRawArr[i].id
   	var RawText = LabDateRawArr[i].innerText
@@ -452,10 +615,10 @@ function getDate(){
     RawText = RawText.trim()
     //console.log(RawText)
     var eleDate = new Date(RawText)
-    
+
     var fillerArr = [id,eleDate]
     visibleLabValueArr.push(fillerArr)
-    
+
     //chunk to get Dates and organize to top list
     var eleDate = new Date(RawText)
     var topDatesStr = topDates.toString()
@@ -467,12 +630,12 @@ function getDate(){
   }
 
 	//console.log(topDates)
-  
+
 }
 //---------------
 //modifies the innerHTML of the lab values. Currently removes the Hour and bolds Lab Value
 //Changes add the reference lab range onto to html
-function labTextMod(){ 
+function labTextMod(){
   console.log('labTextMod started')
 
 
@@ -480,31 +643,52 @@ function labTextMod(){
   //console.log(LabDateRawArr.length)
   for (var i=0; i< LabDateRawArr.length; i++){ //LabDateRawArr.length
   	var RawText = LabDateRawArr[i].innerHTML
+    //console.log(RawText)
     var labRange = LabDateRawArr[i].title.split('body=[')[1]
     labRange = labRange.split(']')[0]
-    labRange = labRange.substring(labRange.lastIndexOf(' '))
+    //console.log(labRange)
 
-    labRange = labRange.replace(/\s/g, ''); //Extra spaces in the reference range string causes issues
+
+
+    // SPLIT THE VALUE NORMAL RANGE FROM ATTACHED TEXT.
+    // THERE'S NO SPACING. THUS NEED TO FILTER AWAY THE LETTERS AND SYMPTOMS NOT INCLUDING <>=.-
+    if (labRange.length>1){
+    //Due to lack of spacing between value and units. this section is to make sure only the range values show
+      let regex = /[^0-9<>=.-]/g; // FIND ANYTHING THAT'S NOT NUMBER OR EXCLUDED SYMBOLS
+      let match = labRange.match(regex); // GET AN ARRAY OF ALL THINGS THAT MATCH
+      //console.log(match)
+
+      if (match != null){
+        let lastIndex = labRange.lastIndexOf(match.pop())//GET THE LAST FOUND MATCH. AND FIND THE LAST INDEX OF THAT.
+        labRange = labRange.substring(lastIndex+1)
+      }
+
+      //console.log(labRange)
+      labRange = labRange.substring(labRange.lastIndexOf(' '))
+      labRange = labRange.replace(/\s/g, ''); //Extra spaces in the reference range string causes issues
+    }
+
+    //----END BLOCK: SPLIT THE VALUE NORMAL RANGE FROM ATTACHED TEXT.
 
     //removal of times and bolding of values
     if (RawText.indexOf('</b>')>=0){
       //console.log('firstcol')
       //---Splitting so get correct access to text area
       var PreP = RawText.split('<p')[0] + '<p'
-      var innerP = RawText.split('<p')[1].split('p>')[0] 
+      var innerP = RawText.split('<p')[1].split('p>')[0]
       var PostP = 'p>' +  RawText.split('p>')[1]
-      
+
       PreP = PreP + innerP.substring(0,innerP.indexOf('>')) + '>'
       innerP = innerP.substring(innerP.indexOf('>')+1,innerP.indexOf('</'))
       PostP =  '</' + PostP
       innerP = innerP.substring(0,innerP.lastIndexOf(' '))
       //end---Splitting so get correct access to text area
-      
+
       var lineBreakIndex = innerP.lastIndexOf('&nbsp;')
-      innerP = '<b>' + innerP.substring(0,lineBreakIndex) + '</b>' + '  <i>(' + labRange + ')</i><br>'  + innerP.substring(lineBreakIndex) 
+      innerP = '<b>' + innerP.substring(0,lineBreakIndex) + '</b>' + '  <i>(' + labRange + ')</i><br>'  + innerP.substring(lineBreakIndex)
       LabDateRawArr[i].innerHTML =PreP + innerP + PostP
-      
-      
+
+
   	}else{ // for the non-first column suff
       //---Splitting so get correct access to text area
       //console.log('not-firstcol')
@@ -512,18 +696,18 @@ function labTextMod(){
       ReplaceText = ReplaceText.trim()
       ReplaceText = ReplaceText.substring(0,ReplaceText.lastIndexOf(' '))
       //end---Splitting so get correct access to text area
-      
+
       var lineBreakIndex = ReplaceText.lastIndexOf(' ')
-      ReplaceText = '<b>' + ReplaceText.substring(0,lineBreakIndex) + '</b>' + '  <i>(' + labRange + ')</i><br>'  + ReplaceText.substring(lineBreakIndex)   
+      ReplaceText = '<b>' + ReplaceText.substring(0,lineBreakIndex) + '</b>' + '  <i>(' + labRange + ')</i><br>'  + ReplaceText.substring(lineBreakIndex)
       LabDateRawArr[i].innerHTML =ReplaceText
     }
-    
+
     //console.log(LabDateRawArr[i].innerHTML)
 
   }
-  
+
   //console.log(topDates)
-  
+
   setTimeout(function(){ colorDates() },250);
 }
 
@@ -534,9 +718,9 @@ function checkDoneLabTextMod(){
     if (RawText.indexOf('</b>') <0){
       fail = 1
       break
-    }  
+    }
   }
-  
+
   if (fail == 0){
   	setTimeout(function(){ colorDates() },250);
   }else{
@@ -551,11 +735,11 @@ function colorDates(date,divVar){
     console.log('color dates')
 
   var colorArr = [
-    '2px solid #00ff00', 
-    '2px solid #00ffff', 
-    '2px solid #ffff00', 
+    '2px solid #00ff00',
+    '2px solid #00ffff',
+    '2px solid #ffff00',
     '2px solid #0080ff',
-    '2px solid #8000ff'  
+    '2px solid #8000ff'
     ]
   //console.log(topDates)
   var LabDateRawArr = $('div[id*=preventionProcedure]')
@@ -568,84 +752,89 @@ function colorDates(date,divVar){
     //console.log(eleDate)
     if (+eleDate == +topDates[0]) {
       //console.log('y')
-  		idObj.style.border = colorArr[0]      
+  		idObj.style.border = colorArr[0]
     }else if (+eleDate == +topDates[1]) {
       //console.log('y1')
-     	idObj.style.border = colorArr[1]      
+     	idObj.style.border = colorArr[1]
     }else if (+eleDate == +topDates[2]) {
       //console.log('y2')
-     	idObj.style.border = colorArr[2]      
+     	idObj.style.border = colorArr[2]
     }else if (+eleDate == +topDates[3]) {
       //console.log('y3')
-     	idObj.style.border = colorArr[3]      
+     	idObj.style.border = colorArr[3]
     }else if (+eleDate == +topDates[4]) {
       //console.log('y4')
-     	idObj.style.border = colorArr[4]      
+     	idObj.style.border = colorArr[4]
     }
-      
+
   }
-  
+
   SortArea()
 }
 
 //----Sorts visible labs on page to newest on top. The number of dates that it sorts is number of rows of TopValue
 function SortArea(){
-  
+
   console.log('sortingbyDate')
   var marginObj
-  
+
+
   var copyVisibleLabArr = new Array()
-  
+    console.log(visibleLabValueArr)
+
   for (var i=0; i<visibleLabValueArr.length; i++){
     var divId = visibleLabValueArr[i][0]
     var eledate = visibleLabValueArr[i][1]
     var objDiv = document.getElementById(divId)
-    //var Pusharr = 
+    //console.log(divId)
+   //console.log(eledate)
+    //console.log(objDiv)
+    //var Pusharr =
     if(objDiv.previousElementSibling.id.indexOf('headP')>=0){
      	 copyVisibleLabArr.push([objDiv,eledate])
     }
-    
+
   }
-	
+
 	var cumTable = $('#cumulativeLab')[0]
   //console.log(cumTable)
   //console.log(copyVisibleLabArr)
 
-  for (var j=0; j<topDates.length; j++){ 
+  for (var j=0; j<topDates.length; j++){
     for (var i=0; i<copyVisibleLabArr.length; i++){
       var eledate = copyVisibleLabArr[i][1]
       var objDiv = copyVisibleLabArr[i][0]
       var objDivParent = objDiv.parentElement
       var topDateVal = topDates[j]
-			
+
       //console.log(topDateVal.getTime() == eledate.getTime())
-      
+
       if (topDateVal.getTime() == eledate.getTime()){
-        copyVisibleLabArr.splice(i,1) 
+        copyVisibleLabArr.splice(i,1)
         marginObj = objDivParent
-        cumTable.appendChild(objDivParent)   
+        cumTable.appendChild(objDivParent)
         i--
       }
-        
-      
+
+
     }
     //makes a gap after the last colored box
     if (j==5){
     	marginObj.style.marginBottom = '50px'
     }
   }
-  
+
   //print out everything that is left over
   //console.log(copyVisibleLabArr)
   for (var j=0; j<copyVisibleLabArr.length; j++){
     var objDiv = copyVisibleLabArr[j][0]
     var objDivParent = objDiv.parentElement
-    copyVisibleLabArr.splice(j,1) 
-    cumTable.appendChild(objDivParent) 
+    copyVisibleLabArr.splice(j,1)
+    cumTable.appendChild(objDivParent)
     j--
-    
+
   }
-  
+
   checkRange()
   toggleTableVis()
 }
@@ -654,7 +843,7 @@ function checkRange(){
   console.log("check range")
 	var LabDateRawArr = $('div[id*=preventionProcedure]')
   //console.log(LabDateRawArr)
-  
+
 	console.log("check if labs in rage")
   for (var i=0; i<LabDateRawArr.length; i++){
     var min = 9999
@@ -666,26 +855,26 @@ function checkRange(){
     var reference = raw.split("(")[1].split(")")[0]
     //reference = reference.replace(/\s/g, '');
     //console.log(raw)
-    
+
     let inBound = true
-  
-    
+
+
     if (valueStr.includes("-")){
-      console.log(valueStr)  
-      valueStr = "NaN"    	
+      //console.log(valueStr)
+      valueStr = "NaN"
     }
     /*if (valueStr.indexOf(">")>=0){//If result contain ">" it usually means something is bad
       inBound = false
     }*/
-      
+
    	var value = parseFloat(valueStr)
 
 
-   
-    
+
+
 
     if (raw.includes("()")){    ///what to do if no reference range
-      //do nothing if empty aka remain true and no changes to background color     
+      //do nothing if empty aka remain true and no changes to background color
     }else if (reference.includes(">")){// what to do if there is a bottom only limiter
       var min = raw.split("(")[1].split(")")[0]
       min = min.replace(/[^\w.]+/g, '')
@@ -701,21 +890,21 @@ function checkRange(){
         inBound = false
       }
     }else if (reference.includes("-")){// what to do if there is a range limit
-      var minMax = raw.split("(")[1].split(")")[0] 
+      var minMax = raw.split("(")[1].split(")")[0]
       min = parseFloat(minMax.split("-")[0])
-      max = parseFloat(minMax.split("-")[1])   
+      max = parseFloat(minMax.split("-")[1])
       if(value<min || value > max){
-        inBound = false 
+        inBound = false
       }
     }else if (raw.includes("(0)")){ //if value is zero expected
       if (value != 0){
         inBound = false
-      } 
+      }
     }else{
       //console.log("value: " + valueStr)
     	//console.log(reference)
       if (valueStr != reference){
-        inBound = false 
+        inBound = false
       }
     }
 
@@ -730,7 +919,7 @@ function checkRange(){
 
     //end loop
   }
-  
+
 }//end Check range
 
 
@@ -749,8 +938,8 @@ function replaceHeadClass(){
     	LabHeaders[i].className= 'headPrevention'
     	//console.log(LabHeaders[i].class)
   //Change color for ferritin numbers
-  
-  
+
+
 
   }
 }
@@ -774,7 +963,7 @@ function getCol(matrix, col){
        return column;
     }
 
-//Returns the matched values between array 
+//Returns the matched values between array
 function arrayMatch(arrSection, arrFull) {
     var resultArr = [];
 
@@ -789,27 +978,11 @@ function arrayMatch(arrSection, arrFull) {
       }
     }
     //console.log(resultArr);
- 
+
     return resultArr
  }
 
-//---------------
-//Pass the array of labs to show on the screen. 3 column array. In order you want it
-//Calls the native function that will request for the information to be displayed on screen
-//---------------
-function LoadMatchedArr(ArrayToLoad){
-    //console.log(ArrayToLoad)
-    toggleTableVis()
-  	for(var i=0; i<ArrayToLoad.length; i++){  
-      if (ArrayToLoad[i][2].includes("-")== true) { //Gets rid of non-labs. like PDF and Reports
-        //console.log(ArrayToLoad[i])
-  			unsafeWindow.addLabToProfile2(ArrayToLoad[i][1],ArrayToLoad[i][0],ArrayToLoad[i][2])
-      	//var LabElement = addLabToProfile3(ArrayToLoad[i][1],ArrayToLoad[i][0],ArrayToLoad[i][2])
 
-        //console.log(LabElement)
-      	}
-    	}
-}
 
 //Alphabetical sort of left labs and checkboxes
 function myDisplay() {
@@ -821,70 +994,12 @@ function myDisplay() {
   //CCBox()
 }
 
-function Cumulative() {
-  //console.log('cumulative')
-  //console.log(parts.length)
-  //console.log(parts)
-  //console.log(myLabArray)
-  for (i = 0; i < parts.length; i++) {
-    parts[i]= parts[i].trim()
-    
-    if(parts[i].indexOf('addLabToProfile2(') < 0){
-      continue
-    }
-    
-    var frontRemoved = parts[i].split('addLabToProfile2(')[1]
-		
-    var indexLastBrac = frontRemoved.lastIndexOf(')')
-    var backRemoved = frontRemoved.substring(0,indexLastBrac)
-    backRemoved = backRemoved.replace("\\/", "/");
-    
-    var noquote = backRemoved.replace(/'/g, '');
-    var FinalArray = noquote.split(',') 
-    //console.log(FinalArray)
-    var name = FinalArray[1]
-    var Code = FinalArray[2] 
-    var HL7 = FinalArray[0]
-    
-    
-    var tempArr = [name,HL7,Code]
-    //console.log(tempArr)
-		myLabArray.push(tempArr)
-    //myLabArray[i][1] = HL7
-    //myLabArray[i][0] = name
-    //myLabArray[i][2] = Code
-    
 
-  }  
-
-  removeUnwanted()
-}
-
-//Removed lines that are weird info and not labs
-function removeUnwanted() {
-  		//console.log('remove unwanted')
-  		var unwantedWords = ['physician', 'report', 'history', 'notification', 'consultation',
-                           'other','colonoscopy','pathology','surgical','operation', 'discharge','date','referred']
-      for (i = myLabArray.length -1  ; i >= 0 ; i--) {
-				var toDelete = 0
-    		for (j = 0; j < unwantedWords.length; j++) {
-                if (myLabArray[i][0].toLowerCase().indexOf(unwantedWords[j]) >= 0){
-                    toDelete = 1
-                    //console.log('removed ' + name)
-                }   
-            }
-        if (toDelete == 1){
-         	//console.log('removed ' + myLabArray[i][0])
-         	myLabArray.splice(i,1) 
-        } 
-      }
-      //console.log(myLabArray)
-}
 
 
 function getMeasures(measure, arrayno) {
   labURL = ''
-  labURL = 'testName=' + measure + '&demo=' + params.demographic_no + '&labType=HL7&identifier=' + myLabArray[arrayno][2] //alert(labURL)  
+  labURL = 'testName=' + measure + '&demo=' + params.demographic_no + '&labType=HL7&identifier=' + myLabArray[arrayno][2] //alert(labURL)
   xmlhttp = new XMLHttpRequest();
   str = ''
   var pathArray = window.location.pathname.split('/');
@@ -935,59 +1050,7 @@ function getMeasures(measure, arrayno) {
 
 
 
-function CdmFunc() {
-  EraseArea()
-  //console.log("cdmFuc")
-  var LabIDArray = getCol(myLabArray,2)
-	var MatchedArr = arrayMatch(CDMArray,LabIDArray)
-  //console.log(MatchedArr)
-  LoadMatchedArr(MatchedArr)
-  setTimeout(function(){ waitLabLoad() }, 1000);
-}
-function CbcFunc() {
-  EraseArea()
-  var LabIDArray = getCol(myLabArray,2)
-	var MatchedArr = arrayMatch(CBCArray,LabIDArray)
-  LoadMatchedArr(MatchedArr)
-  setTimeout(function(){ waitLabLoad() }, 1000);
-}
-function InfFunc() {
-  EraseArea()
-  //console.log("InfFunc")
-  var LabIDArray = getCol(myLabArray,2)
-	var MatchedArr = arrayMatch(INFArray,LabIDArray)
-  LoadMatchedArr(MatchedArr)
-  setTimeout(function(){ waitLabLoad() }, 1000);
-}
-function HepFunc() {
-  /*EraseArea()
-  console.log("HepFunc")
-  var LabIDArray = getCol(myLabArray,2)
-	var MatchedArr = arrayMatch(HEPArray,LabIDArray)
-  LoadMatchedArr(MatchedArr)
-  setTimeout(function(){ waitLabLoad() }, 1000);
-  */
-  //checkRange()
 
-}
-function AllFunc() {
-  //console.log('show all labs')
-  EraseArea()
-  createLoadingDiv()
-  LoadMatchedArr(myLabArray)
-  //replaceHeadClass()
-  //console.log("waiting for lab load ...")
-  window.setTimeout(function(){ waitLabLoad() }, 1000);
-  //console.log("delaycheck")
- 
-}
-function ByDate() {
-  //console.log("bydateButton")
-  SortArea()
-  //EraseArea()
-  //LoadMatchedArr(myLabArray)
-  //setTimeout(function(){ waitLabLoad() }, 1000);
-}
 
 
 function CCBox() {
@@ -998,7 +1061,7 @@ function CCBox() {
       qq = document.getElementById('ALL')
       if (qq.checked == true) {
         q.checked = true;
-      } 
+      }
       else if (qq.checked == false) {
         q.checked = false;
       } //*****************
@@ -1007,7 +1070,7 @@ function CCBox() {
       qq = document.getElementById('CDM')
       if (CDMArray.indexOf(q.value) > - 1 && qq.checked == true) {
         q.checked = true;
-      } 
+      }
       else if (CDMArray.indexOf(q.value) > - 1 && qq.checked == false) {
         q.checked = false;
       } //*****************
@@ -1015,7 +1078,7 @@ function CCBox() {
       qq = document.getElementById('CBC')
       if (CBCArray.indexOf(q.value) > - 1 && qq.checked == true) {
         q.checked = true;
-      } 
+      }
       else if (CBCArray.indexOf(q.value) > - 1 && qq.checked == false) {
         q.checked = false;
       } //*****************
@@ -1023,7 +1086,7 @@ function CCBox() {
       qq = document.getElementById('INF')
       if (INFArray.indexOf(q.value) > - 1 && qq.checked == true) {
         q.checked = true;
-      } 
+      }
       else if (INFArray.indexOf(q.value) > - 1 && qq.checked == false) {
         q.checked = false;
       } //*****************
@@ -1031,7 +1094,7 @@ function CCBox() {
       qq = document.getElementById('HEP')
       if (HEPArray.indexOf(q.value) > - 1 && qq.checked == true) {
         q.checked = true;
-      } 
+      }
       else if (HEPArray.indexOf(q.value) > - 1 && qq.checked == false) {
         q.checked = false;
       } //*****************
@@ -1056,7 +1119,7 @@ function addLabToProfile23(labType,testName,identCode){
    var ran_number=Math.round(Math.random()*1000000);
    newNode.setAttribute('id','d'+ran_number);
 
-   
+
    //$('cumulativeLab').appendChild(req.responseText);
    var testing = $('#cumulativeLab')[0]
    console.log(testing)
@@ -1073,9 +1136,8 @@ function addLabToProfile23(labType,testName,identCode){
                                           parameters:params,
                                           asynchronous:true,
                                            //onComplete: reRound
-                                          evalScripts:true}); 
+                                          evalScripts:true});
    ///alert("sdf"+$('d'+ran_number));
    ///alert("sdf"+$('d'+ran_number));
   console.log('tes24t')
 }
-
