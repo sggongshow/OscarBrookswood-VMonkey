@@ -6,7 +6,7 @@
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
 // @include     *casemgmt/forward.jsp?*
-// @version     24.07.04.0
+// @version     24.07.04.1
 // ==/UserScript==
 //window.moveTo(300, 100)
 
@@ -309,7 +309,7 @@ function showAlert13()
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
   // INSERT YOU OWN form ID (fid=??) here
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=207&demographic_no=' + demo_no + '&appointment=' + ApptNum//alert(formPath)
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=199&demographic_no=' + demo_no + '&appointment=' + ApptNum//alert(formPath)
   window.open(formPath, 'Popup_Window7', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1000,height=800,left = 312,top = 234');
 }
 var input14 = document.createElement('input');
