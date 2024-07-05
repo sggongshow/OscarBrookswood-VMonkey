@@ -6,7 +6,7 @@
 // @include     *provideradminday.jsp?*displaymode=day*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version	    24.07.04.2
+// @version	    24.07.04.5
 // ==/UserScript==
 
 //24.07.04.1: changed to Juno. not much changed
@@ -74,7 +74,7 @@ function main(){
 
   //Append the button
   var AppendingParagraph = $(".infirmaryView")[0]
-	AppendingParagraph.appendChild(checkButton);
+	//AppendingParagraph.appendChild(checkButton);
   AppendingParagraph.appendChild(checkButtonLFP1);
   AppendingParagraph.appendChild(checkButtonLFP2);
   realCheckBilling()
