@@ -1,15 +1,24 @@
 // ==UserScript==
 // @name        Document Review buttons
-// @namespace   GongOscar
+// @namespace   GongOscar - Clayton
 // @description Constant EForm Submit and Print button locations
 // @include     */dms/showDocument.jsp?*
 // @include     */dms/MultiPageDocDisplay.jsp?*
 // @include     *lab/CA/ALL/labDisplay.jsp?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			22.08.16.0
+// @version			24.07.04.2
 // ==/UserScript==
 //window.moveTo(300, 100)
+
+
+//Changelog
+//24.07.04.2 - Clayton mod
+//24.01.07.2 - fixed changed in acknowledge shortcut issues after update
+//23.05.04.2 - fixed echart button again on showDocument
+//23.03.28.3 - fixed the echart button to work AGAIN - on showDocument.jsp due to broken stuff on quipo
+//23.03.28.2 - fixed the echart button to work again
+//23.03.28.1 - changed position of buttons to stop blocking things due to quipo format changes
 
  ///FOR TICKLER KEYBOARD SHORTCUT TO BE ENABLED
 
@@ -27,53 +36,53 @@ document.addEventListener('keydown', function(theEvent) {
 
 	switch(true){
       //Acknowledge  button
-    case theAltKey && theKey==='1': 
-      
+    case theAltKey && theKey==='1':
+
       showAlert()
 			break;
-      
-      //Tickler 
-		case theAltKey && theKey==='2': 
+
+      //Tickler
+		case theAltKey && theKey==='2':
  			showAlert1()
 			break;
-      
+
       //Echart
-    case theAltKey && theKey==='3': 
- 			showAlert2()
+    case theAltKey && theKey==='3':
+ 			OpenEchartFunc()
 			break;
-      
+
     case theAltKey && theKey==='q': //back page
- 			var button = $('[id*="prevP"]')[0]
-      
-      //check if button is visible	
+ 			var button = document.querySelector('[id*="prevP"]')
+
+      //check if button is visible
 			var visible = true
-     	var styleVal = button.getAttribute("style")
+     	var styleVal = button.style.csstext
       if (styleVal != null){
-      	if (styleVal.includes("hidden") == true ){
+      	if (styleVal.includes("hidden") == false ){
         visible = false
         } else{
         visible = true
         }
       }
-      
+
       //if visible and on correct page then click
   		if ((window.location.pathname.includes("DocDisplay.jsp")||window.location.pathname.includes("showDocument.jsp") ) && visible == true ){
   			button.click()
   		}
 			break;
-      
-      
+
+
     case theAltKey && theKey==='w': //fwd page
-      
-      var button = $('[id*="nextP"]')[0]
+
+      var button = document.querySelector('[id*="nextP"]')
       console.log(button)
-			//check if button is visible	
+			//check if button is visible
 			var visible = true
-      
-     	var styleVal = button.getAttribute("style")
-      console.log(styleVal)
+
+     	var styleVal = button.style.csstext
+      //console.log(styleVal)
       if (styleVal != null){
-      	if (styleVal.includes("hidden") == true ){
+      	if (styleVal.includes("hidden") == false ){
         visible = false
         } else{
         visible = true
@@ -85,28 +94,28 @@ document.addEventListener('keydown', function(theEvent) {
   			button.click()
   		}
 			break;
-      
+
     case theAltKey && theKey==='e': //last page
- 			var button = $('[id*="lastP"]')[0]
-      
-      //check if button is visible	
+ 			var button = document.querySelector('[id*="lastP"]')
+
+      //check if button is visible
 			var visible = true
-     	var styleVal = button.getAttribute("style")
+     	var styleVal = button.style.csstext
       if (styleVal != null){
-      	if (styleVal.includes("hidden") == true ){
+      	if (styleVal.includes("hidden") == false ){
         visible = false
         } else{
         visible = true
         }
       }
-      
+
       //if visible and on correct page then click
   		if ((window.location.pathname.includes("DocDisplay.jsp")||window.location.pathname.includes("showDocument.jsp") ) && visible == true ){
   			button.click()
   		}
 			break;
-      
-      
+
+
     default:
     	break;
 
@@ -114,7 +123,7 @@ document.addEventListener('keydown', function(theEvent) {
 }, true);
 
 
-  
+
 //New input box that follows the page
 var inputTextbox = document.createElement('input');
 inputTextbox.type = 'text';
@@ -134,22 +143,21 @@ if (window.location.pathname.includes("labDisplay.jsp")){
   }else{
     OGLabelText=""
   }
-
   inputTextbox.value = OGLabelText
 
 
-	inputTextbox.setAttribute('style', 'width:120px;font-size:12px;padding:0px;position:fixed;top:20px;left:518px; border-color:red;');
+	inputTextbox.setAttribute('style', 'width:120px;font-size:12px;padding:0px;position:fixed;top:20px;left:688px; border-color:red;');
 	document.body.appendChild(inputTextbox);
   inputTextbox.focus()
 }else{
   var OGLabelObj = $('input[id*=docDesc][name*=documentDes]')[0]
   var OGLabelText = OGLabelObj.value
-  
+
   inputTextbox.value = OGLabelText
   inputTextbox.setAttribute('style', 'height:25px ;width:160px;font-size:14px;padding:0px;position:fixed;top:120px;right:10px; border-color:red;');
 	document.body.appendChild(inputTextbox);
   inputTextbox.focus()
-  
+
 }
 
 
@@ -162,24 +170,24 @@ input.value = 'Acknow';
 input.onclick = showAlert
 
 if (window.location.pathname.includes("labDisplay.jsp")){
-input.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:40px;left:400px; background-color:#66ff66;');
+input.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:40px;left:720px; background-color:#66ff66;');
 }else{
 input.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:30px;right:10px; background-color:#66ff66;');
 }
 
 document.body.appendChild(input);
-function showAlert()
+function showAlert() //acknowledge
 {
   //Covering the dumb various codings of the acknowledge button
-  
-	//console.log('clicked acknow')
-    
-  //weird lab/transcriptions page
-  if (window.location.pathname.includes("labDisplay.jsp")){ 
 
-    //Acknowledge will also auto click label if there is text in label. 
+	//console.log('clicked acknow')
+
+  //weird lab/transcriptions page
+  if (window.location.pathname.includes("labDisplay.jsp")){
+
+    //Acknowledge will also auto click label if there is text in label.
     //If nothing in text box then won't click Label button
-    var labelButton = $('[type="button"][value="Label"][id*="Label"]') 
+    var labelButton = $('[type="button"][value="Label"][id*="Label"]')
     var labelEntry = $('input[id*="acklabel"][type="text"][name*="label"]')
     var labelEntryID = labelEntry.attr('id')
     var labelElement = document.getElementById(labelEntryID);
@@ -189,7 +197,7 @@ function showAlert()
     labelElement.value = newTextBoxVal
     var labelEntryText = labelEntry.val()
 
-    if (labelEntryText.length >0){ //check if anything in text box. 
+    if (labelEntryText.length >0){ //check if anything in text box.
       labelButton.click()
     }
 
@@ -199,15 +207,15 @@ function showAlert()
     //console.log(OGLabelObj.value)
     //console.log(inputTextbox.value)
     if (OGLabelObj.value.length < inputTextbox.value.length){
-			OGLabelObj.value =	inputTextbox.value	
+			OGLabelObj.value =	inputTextbox.value
     }
-    
+
     var saveButton = $('input[type="submit"][name="save"][id*="save"]')
     saveButton.click()
-    
+
   	}
-  
-  //click acknowledge button or close if no acknowledge button  	
+
+  //click acknowledge button or close if no acknowledge button
   var button
   //if (window.location.pathname.includes("labDisplay.jsp")){
   button = $('input[type="button"][value="Acknowledge"]')[0]
@@ -220,28 +228,38 @@ function showAlert()
   if (button == null){
     button = $('input[type="button"][value*="Close"]')
   }
-     
+
   //console.log(button)
+  console.log(button)
   var parentId = $(button).closest('form').attr('id');
-  if (parentId.includes('acknowledge')){
-  	button.click()
-    //closeButton.click()
+  console.log(parentId)
+  if (parentId != null){
+    if (parentId.includes('acknowledge')){
+      button.click()
+      //closeButton.click()
+    }
   }
-} 
+  else if(button.getAttribute("id").includes("ackBtn") == true){
+    button.click()
+  }
+}
 
 var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'Tickler';
 input1.onclick = showAlert1;
 if (window.location.pathname.includes("labDisplay.jsp")){
-input1.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:40px;left:480px; background-color:#FF6600;');
+input1.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:40px;left:640px; background-color:#FF6600;');
 }else{
 input1.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:60px;right:10px; background-color:#FF6600;');
 }
 document.body.appendChild(input1);
+
+
+  // Open tickler
 function showAlert1()
 {
-  var button = $('input[type="button"][value="Tickler"]') 
+  var button = $('input[type="button"][value="Tickler"]')
   var parentId = $(button).closest('form').attr('id')
   if (parentId.includes('acknowledge')){
   	button.click()
@@ -251,21 +269,36 @@ function showAlert1()
 var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'Echart';
-input2.onclick = showAlert2;
+input2.onclick = OpenEchartFunc;
 if (window.location.pathname.includes("labDisplay.jsp")){
 input2.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:40px;left:560px;');
 }else{
 input2.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:90px;right:10px;');
 }
 document.body.appendChild(input2);
-function showAlert2()
+
+
+// Open Chart Function
+function OpenEchartFunc()
 {
-  var button = $('input[type="button"][value*="Chart"]') 
+  /*
+  var button = $('input[type="button"][value*="Chart"]')
   var parentId = $(button).closest('form').attr('id')
   if (parentId.includes('acknowledge')){
   	button.click()
   }
- 
+  */
+
+  var echartButton = document.querySelector('[onclick*=searchPatientWindow]')
+
+
+  if (echartButton == null){
+    //stupid ass issue on showDocument.jsp where Echart is broken. Workaround
+    echartButton = document.querySelectorAll('[id*=msgEncounterBt]')[0]
+  }
+  console.log(echartButton)
+  echartButton.click()
+
 }
 
 var NameSearchWin
@@ -282,22 +315,22 @@ if (window.location.pathname.includes("labDisplay.jsp")){
   input3.value = '?Specialty';
   input3.onclick = showAlert3;
   input3.setAttribute('style', 'width:80px;font-size:16px;z-index:1;position:fixed;top:40px;left:640px;');
-  document.body.appendChild(input3);
+  //document.body.appendChild(input3);
   function showAlert3(){
 		//console.log("testspeci")
     var docNameDiv = $('div.FieldData:contains("Requesting Client")')
     //console.log(docNameDiv.text())
 		var fullName = docNameDiv.text().split('\n')[2]
     var fullName = fullName.trim()
-    
+
     var splitName = fullName.split(' ')
 		var lastName = splitName[splitName.length -1]
 		var firstName = splitName[0]
 		//console.log(lastName)
   	//console.log(firstName)
-    NameSearchWin = window.open("https://www.cpsbc.ca/public/registrant-directory/search-result"); 
+    NameSearchWin = window.open("https://www.cpsbc.ca/public/registrant-directory/search-result");
 		NameSearchWinDoc = NameSearchWin.document;
-    
+
     //console.log(NameSearchWin)
     //console.log(NameSearchWinDoc)
      }
@@ -306,7 +339,3 @@ if (window.location.pathname.includes("labDisplay.jsp")){
 
 
 })
-
-
-
-
