@@ -6,7 +6,7 @@
 // @include			*www.cpsbc.ca/public/registrant-directory/search-result*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  24.07.04.0
+// @version		  24.07.04.1
 // @grant           GM.setValue
 // @grant           GM.getValue
 // @grant						GM.openInTab
