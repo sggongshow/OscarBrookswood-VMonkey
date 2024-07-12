@@ -6,10 +6,13 @@
 // @include     *casemgmt/forward.jsp?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			22.08.02.0
+// @version			24.07.12.0
 // ==/UserScript==
 
-//Brookswood
+//Clayton
+//Changelog
+//24.07.12.0 - modified for Clayton. changed ctrl F value 67>66
+
 
 function setCookie(cname, cvalue, exdays, cpath)
 {
@@ -79,7 +82,7 @@ document.addEventListener('keydown', function(theEvent) {
 			break;
       
     case theAltKey && theKey==='f': //Medical Hx
- 			$('a[onclick*="cppNote.showIssueHistory"][onclick*="67"]')[0].click()
+ 			$('a[onclick*="cppNote.showIssueHistory"][onclick*="66"]')[0].click()
 			break;
        
       /*
