@@ -7,12 +7,13 @@
 // @include     *lab/CA/ALL/labDisplay.jsp?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			24.07.04.2
+// @version	24.08.23.1
 // ==/UserScript==
 //window.moveTo(300, 100)
 
 
 //Changelog
+//24.08.23.1 - fixed echart button
 //24.07.04.2 - Clayton mod
 //24.01.07.2 - fixed changed in acknowledge shortcut issues after update
 //23.05.04.2 - fixed echart button again on showDocument
@@ -289,7 +290,7 @@ function OpenEchartFunc()
   }
   */
 
-  var echartButton = document.querySelector('[onclick*=searchPatientWindow]')
+  var echartButton = document.querySelector('[id*=mainEchart]')
 
 
   if (echartButton == null){
