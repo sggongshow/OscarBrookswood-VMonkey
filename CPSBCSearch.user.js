@@ -1,20 +1,16 @@
 // ==UserScript==
 // @name        Lab/Document Review - CPSBC Search
-// @namespace   GongOscar - Clayton
+// @namespace   GongOscar
 // @description Constant EForm Submit and Print button locations
 // @include     *lab/CA/ALL/labDisplay.jsp?*
 // @include			*www.cpsbc.ca/public/registrant-directory/search-result*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  24.07.04.1
+// @version		  24.09.18.1
 // @grant           GM.setValue
 // @grant           GM.getValue
 // @grant						GM.openInTab
 // ==/UserScript==
-
-//Changelog
-//24.07.04.0 added on for clayton
-
 
 
 
@@ -70,6 +66,8 @@ var docNameField
       GM.setValue("count", 0)
     }
 
+    GM.setValue("last", null)
+    GM.setValue("first", null)
 
   }
 
@@ -93,7 +91,8 @@ var docNameField
     GM.setValue("last", docNameLast)
     GM.setValue("first", docNameFirst)
     GM.setValue("count", 100)
-    var windowCPSBC = window.open("https://www.cpsbc.ca/public/registrant-directory/search-result")
+    //var windowCPSBC = window.open("https://www.cpsbc.ca/public/registrant-directory/search-result")
+    var windowCPSBC = window.open("https://www.cpsbc.ca/public/registrant-directory")
     //GM.openInWindow("https://www.cpsbc.ca/public/registrant-directory/search-result")
 	}
 
@@ -101,3 +100,8 @@ var docNameField
 
 })();
 })
+
+
+
+
+
