@@ -6,11 +6,12 @@
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js
 // @grant       GM_addStyle
-// @version	24.12.15.1
+// @version	25.01.10.1
 // ==/UserScript==
 
 //brookswood  - ClinicAid
 //Changlog
+// 25.01.10.1 - tweak on billing time
 // 24.12.15.0 - added on check to save if not adding more codes. and add bill only if dx code filled
 // 24.12.15.1 - added automatic service billing start and end times
 
@@ -74,7 +75,7 @@ function checkDayCodes(){
 
     if (parseInt(codeBox.value) == 98040 || parseInt(codeBox.value) == 98010 ) {
       startTimeBox.value = "0900"
-      endTimeBox.value = "1600"
+      endTimeBox.value = "1700"
     }
     else if (parseInt(codeBox.value) == 98041 || parseInt(codeBox.value) == 98011 ) {
       autoTimeInputLFP2()
