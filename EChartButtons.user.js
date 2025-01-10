@@ -6,12 +6,13 @@
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
 // @include     *casemgmt/forward.jsp?*
-// @version     24.07.04.2
+// @version     25.01.10.1
 // ==/UserScript==
 //window.moveTo(300, 100)
 
 //CLAYTON
 //Changelong
+// 25.01.10.1 - chnaged fid mammo
 // 24.07.04.0 - modified for clayton the clinic
 
 
@@ -185,7 +186,7 @@ function showAlert8()
   var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
   var res = myParam.indexOf('&')
   var demo_no = myParam.substring(0, res) //alert (demo_no)
-  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=12&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
+  var formPath = vPath + '/eform/efmformadd_data.jsp?fid=213&demographic_no=' + demo_no + '&appointment=' + ApptNum// INSERT YOU OWN form ID (fid=??) here
   //alert(formPath)
   window.open(formPath,'Popup_Window4', 'width=800,height=800,left = 0,top = 0')
 }
