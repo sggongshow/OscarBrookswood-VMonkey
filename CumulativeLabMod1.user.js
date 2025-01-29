@@ -449,7 +449,8 @@ function removeUnwanted() {
   		var unwantedWords = ['physician', 'report', 'history', 'notification', 'consultation', 'breast', 'ultrasound',
 				     'holter', 'mammo', 'other','colonoscopy','pathology', 'note', 'progress',
                            	     'surgical','operation', 'discharge','date','referred','ecg', 'egd',
-				     'consult', 'scopy', 'scope', 'summary', 'treat', 'med', 'exam'] //'exam'
+				     'consult', 'scopy', 'scope', 'summary', 'treat', 'med', 'exam', 'review',
+				     'cervix', 'provider', 'clinic', 'assessment','ERCP' ] //'exam'
       for (i = myLabArray.length -1  ; i >= 0 ; i--) {
 				var toDelete = 0
     		for (j = 0; j < unwantedWords.length; j++) {
