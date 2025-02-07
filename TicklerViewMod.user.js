@@ -5,9 +5,11 @@
 // @include     */ticklerMain.jsp?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version			24.07.04.0
+// @version	25.02.07.0
 // ==/UserScript==
 
+//Changelog
+//25.02.07.0 - added new buttons to show all active without provider limitations
 
 //wait window load first
 
@@ -19,12 +21,23 @@ window.addEventListener('load', function() {
   compBut.type = 'button';
   compBut.id = 'compBut'
   compBut.name = 'compBut'
-  compBut.value = 'COMPLETED'
+  compBut.value = 'All Completed'
   compBut.onclick = compButFunc
   compBut.setAttribute('style', 'width:80px;font-size:12px;padding:0px; background-color:cyan;');
 
   var bodyForAppend = document.querySelector('[class=HelpAboutLogout]').parentElement
   bodyForAppend.appendChild(compBut)
+
+  var AllActiveBut = document.createElement('input');
+  AllActiveBut.type = 'button';
+  AllActiveBut.id = 'AllActiveBut'
+  AllActiveBut.name = 'AllActiveBut'
+  AllActiveBut.value = 'All Active'
+  AllActiveBut.onclick = AllActiveButFunc
+  AllActiveBut.setAttribute('style', 'width:80px;font-size:12px;padding:0px; background-color:lime;');
+
+  var bodyForAppend = document.querySelector('[class=HelpAboutLogout]').parentElement
+  bodyForAppend.appendChild(AllActiveBut)
 
 	//document.body.appendChild(compBut);
 
@@ -60,6 +73,17 @@ document.addEventListener('keydown', function(theEvent) {
 function compButFunc(){
   var selectList = $('[name="ticklerview"]')[0]
   selectList.value = "C"
+  var selectAssignedTo = $('[name="assignedTo"]')[0]
+  selectAssignedTo.value = "all"
+  var reportBut = $('.mbttn[value*="Report"]')[0]
+  reportBut.click()
+
+}
+function AllActiveButFunc(){
+  var selectList = $('[name="ticklerview"]')[0]
+  selectList.value = "A"
+  var selectAssignedTo = $('[name="assignedTo"]')[0]
+  selectAssignedTo.value = "all"
   var reportBut = $('.mbttn[value*="Report"]')[0]
   reportBut.click()
 
