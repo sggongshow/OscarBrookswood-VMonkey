@@ -7,7 +7,7 @@
 // @include     *forwardshortcutname.jsp?formname=BC-WCB*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.2
+// @version		  25.08.12.3
 // ==/UserScript==
 
 //changelog
@@ -43,7 +43,6 @@ function generateData()
 //capable work, estimated rtw, rehab able?, consult wcb?, maximal recovery date, further correspondence?
   var dataArr = []
   
-  dataArr.push(document.getElementsByName("w_empname")[0].value)
   dataArr.push(document.getElementsByName("w_empname")[0].value) //emp name
   dataArr.push(document.getElementsByName("w_opaddress")[0].value) //emp address
   dataArr.push(document.getElementsByName("w_opcity")[0].value) //emp address
