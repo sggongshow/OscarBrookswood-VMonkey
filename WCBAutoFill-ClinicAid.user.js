@@ -5,8 +5,11 @@
 // @include     *billing.clinicaid.ca/#/invoice/add?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.5
+// @version		  25.08.13.1
 // ==/UserScript==
+
+//Changelog
+//25.08.13.1 = accounted for empty dates, and unchecked WCP
 
 var wcbBut
 var mspBut
@@ -110,13 +113,13 @@ async function wcbAutoFill (){
 
   //get current form
   var orderedFormArray = await OrderedElementsArray()
-  //console.log(orderedFormArray)
+  console.log(orderedFormArray)
 
   //get data from text box
   var getData = document.getElementById("dataRaw").value
   var dataArray = getData.split("/*/")
   dataArray.pop()
-  //console.log(dataArray)
+  console.log(dataArray)
 
   for (let i = 0; i < orderedFormArray.length; i++) {
   //for (let i = 0; i < 14; i++) {
@@ -126,13 +129,17 @@ async function wcbAutoFill (){
       orderedFormArray[i].dispatchEvent(new Event('change', {bubbles: true}));
     }
     else if(orderedFormArray[i].tagName == "SELECT"){
-      orderedFormArray[i].value = "string:" + dataArray[i]
+      if (dataArray[i].length>0){
+        orderedFormArray[i].value = "string:" + dataArray[i]
+      }
     }
     else if(orderedFormArray[i] instanceof NodeList){
-      var dateArr = dataArray[i].split("-")
-      orderedFormArray[i][0].value = dateArr[0]
-      orderedFormArray[i][1].value = dateArr[1]
-      orderedFormArray[i][2].value = dateArr[2]
+      if (dataArray[i].length>0){
+        var dateArr = dataArray[i].split("-")
+        orderedFormArray[i][0].value = dateArr[0]
+        orderedFormArray[i][1].value = dateArr[1]
+        orderedFormArray[i][2].value = dateArr[2]
+      }
     } else if(orderedFormArray[i] == ""){
       //do nothing. empty
     }
@@ -187,7 +194,8 @@ async function OrderedElementsArray(){
   ElementsArray.push(document.getElementById("input-additional_info")) //further correspondence ---TOGGLE
 
   //missed ones
-  ElementsArray.push(document.getElementById("input-restrictions")
+  ElementsArray.push(document.getElementById("input-restrictions"))
+  ElementsArray.push(document.getElementById("input-rehab_program"))
 
   return ElementsArray
 }
