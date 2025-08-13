@@ -5,11 +5,8 @@
 // @include     *billing.clinicaid.ca/#/invoice/add?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.2
+// @version		  25.08.12.5
 // ==/UserScript==
-
-//changelog
-// 25.08.12.2 - creation
 
 var wcbBut
 var mspBut
@@ -113,13 +110,13 @@ async function wcbAutoFill (){
 
   //get current form
   var orderedFormArray = await OrderedElementsArray()
-  console.log(orderedFormArray)
+  //console.log(orderedFormArray)
 
   //get data from text box
   var getData = document.getElementById("dataRaw").value
   var dataArray = getData.split("/*/")
   dataArray.pop()
-  console.log(dataArray)
+  //console.log(dataArray)
 
   for (let i = 0; i < orderedFormArray.length; i++) {
   //for (let i = 0; i < 14; i++) {
@@ -188,6 +185,9 @@ async function OrderedElementsArray(){
 
   ElementsArray.push(document.querySelectorAll('input[id*="input-maximal_medical_recovery_date"]')) //maximal recovery ++++DATE
   ElementsArray.push(document.getElementById("input-additional_info")) //further correspondence ---TOGGLE
+
+  //missed ones
+  ElementsArray.push(document.getElementById("input-restrictions")
 
   return ElementsArray
 }
