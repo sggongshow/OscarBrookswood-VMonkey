@@ -3,12 +3,14 @@
 // @namespace   GongOscar
 // @description Generates data from Oscar-side BC-WCB form to be used with associated script for ClinicAid
 // @include     */viewformwcb.do*
-// @include     *formwcb.d*
-// @include     *formwcb.d*
+// @include     *forwardshortcutname.jsp?formname=BC-WCB*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.5
+// @version		  25.08.13.1
 // ==/UserScript==
+
+//Changelog
+//25.08.13.1 = accounted for empty dates, and unchecked WCP
 
 window.addEventListener('load', function () {
  console.log("clinicaid generate")
@@ -92,7 +94,14 @@ function generateData()
   dataArr.push(select1.value)
 
   //missed ones
-  dataArr.push(document.getElementsByName("w_capreason")[0].value)
+  dataArr.push(document.getElementsByName("w_capreason")[0].value) //unable to work reason
+
+  temp1 = document.getElementsByName("w_rehabtype")
+  // var toPush = await getCheckedItem(temp1)
+  select1 = Array.from(temp1).find(element => element.checked);
+  if (select1 != undefined){dataArr.push(select1.value)}
+  else{dataArr.push("")}
+  // rehab program WCB vs Other
 
   console.log(dataArr)
   displayData(dataArr)
@@ -102,7 +111,7 @@ function generateData()
 
 function displayData(data){
   var textBox= document.getElementById("dataRaw")
-
+  textBox.value = ""
   for (var i = 0; i < data.length; i++) {
     textBox.value += data[i] + "/*/";
   }
@@ -156,3 +165,8 @@ async function openWindow(pathLink2) {
     var clinicAidWindow = window.open(pathLink2, 'popupWindow');
 
   }
+
+async function getCheckedItem(item){
+  select1 = Array.from(item).find(element => element.checked);
+
+}
