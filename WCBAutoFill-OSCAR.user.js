@@ -3,15 +3,12 @@
 // @namespace   GongOscar
 // @description Generates data from Oscar-side BC-WCB form to be used with associated script for ClinicAid
 // @include     */viewformwcb.do*
-// @include     *formwcb.d
-// @include     *forwardshortcutname.jsp?formname=BC-WCB*
+// @include     *formwcb.d*
+// @include     *formwcb.d*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.3
+// @version		  25.08.12.5
 // ==/UserScript==
-
-//changelog
-//25.08.12.0 - creation day
 
 window.addEventListener('load', function () {
  console.log("clinicaid generate")
@@ -42,7 +39,7 @@ function generateData()
 //date service, date inj, diag, wcb code, service code, icd9, bodypart, side, nature of inj, disabled?, disabled date, clinical info
 //capable work, estimated rtw, rehab able?, consult wcb?, maximal recovery date, further correspondence?
   var dataArr = []
-  
+
   dataArr.push(document.getElementsByName("w_empname")[0].value) //emp name
   dataArr.push(document.getElementsByName("w_opaddress")[0].value) //emp address
   dataArr.push(document.getElementsByName("w_opcity")[0].value) //emp address
@@ -94,6 +91,8 @@ function generateData()
   select1 = Array.from(temp1).find(element => element.checked);
   dataArr.push(select1.value)
 
+  //missed ones
+  dataArr.push(document.getElementsByName("w_capreason")[0].value)
 
   console.log(dataArr)
   displayData(dataArr)
