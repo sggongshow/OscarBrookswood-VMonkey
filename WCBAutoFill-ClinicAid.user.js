@@ -5,8 +5,11 @@
 // @include     *billing.clinicaid.ca/#/invoice/add?*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.0
+// @version		  25.08.12.2
 // ==/UserScript==
+
+//changelog
+// 25.08.12.2 - creation
 
 var wcbBut
 var mspBut
@@ -110,13 +113,13 @@ async function wcbAutoFill (){
 
   //get current form
   var orderedFormArray = await OrderedElementsArray()
-  //console.log(orderedFormArray)
+  console.log(orderedFormArray)
 
   //get data from text box
   var getData = document.getElementById("dataRaw").value
   var dataArray = getData.split("/*/")
   dataArray.pop()
-  //console.log(dataArray)
+  console.log(dataArray)
 
   for (let i = 0; i < orderedFormArray.length; i++) {
   //for (let i = 0; i < 14; i++) {
