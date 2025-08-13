@@ -3,11 +3,15 @@
 // @namespace   GongOscar
 // @description Generates data from Oscar-side BC-WCB form to be used with associated script for ClinicAid
 // @include     */viewformwcb.do*
-// @include     *formwcb.d*
+// @include     *formwcb.d
+// @include     *forwardshortcutname.jsp?formname=BC-WCB*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version		  25.08.12.0
+// @version		  25.08.12.2
 // ==/UserScript==
+
+//changelog
+//25.08.12.0 - creation day
 
 window.addEventListener('load', function () {
  console.log("clinicaid generate")
