@@ -6,11 +6,11 @@
 // @include     *provideradminday.jsp?*displaymode=day*
 // @require     https://code.jquery.com/jquery-3.6.0.js
 // @grant       GM_addStyle
-// @version	    26.02.22.4
+// @version	    26.02.22.5
 // ==/UserScript==
 
 //changelog
-//26.02.22.0: modified from TLC for Juno. Billing check disabled
+//26.02.22.x: modified from TLC for Juno. Billing check disabled
 
 var providerID = 0
 var baseURL
@@ -75,7 +75,8 @@ function main(){
   var AppendingParagraph = $(".infirmaryView")[0]
 	//AppendingParagraph.appendChild(checkButton);
   AppendingParagraph.appendChild(checkButtonLFP1);
-  AppendingParagraph.appendChild(checkButtonLFP2);
+
+  //AppendingParagraph.appendChild(checkButtonLFP2);
   //realCheckBilling()
 }
 
@@ -182,74 +183,21 @@ function billingButtonClick(){
   window.open(newURL,'Billing Window', 'left = 0,top = 0')
 }
 
-function billingButtonLFP1Click(){
-  let firstPt = document.querySelectorAll('[class="apptLink"]')
-
-  //Check to see if there any patient on the daysheet to begin with
-  if(firstPt.length>0){
-    firstPt = firstPt[0]
-  }else{
-    //console.log("no pts on list")
-    return
-  }
-
-  let extractedURL = firstPt.getAttribute("onclick").split(',')[2]
-
-  //get the demographic_no
-  let demNum = extractedURL.split("demographic_no=")[1].split("&")[0]
-  //Get the name of patient and change name into correct format for URL requirements
-  let NameFormat = firstPt.getAttribute("title").split("\n")[0].toUpperCase()
-  NameFormat = NameFormat.replace(',',"%2C")
-  let apptDate = document.querySelectorAll('[class="dateAppointment"]')[0].innerText.split(',')[1].trim()
-
-  //URL for billing of first patient on list
-  var newURL = vPath + "billing.do?billRegion=BC&billForm=L23&hotclick=&appointment_no=0&bNewForm=1&status=t" + "&user_no=" + providerID + "&apptProvider_no=" + providerID
-  newURL = newURL + "&demographic_no=" + demNum + "&demographic_name=" + NameFormat + "&appointment_date=" + apptDate
-
-  window.open(newURL,'Billing Window', 'left = 0,top = 0')
-}
 
 function billingButtonLFP1ClickV2(){   //for Time,LFP patient
 
   let apptDate = document.querySelectorAll('[class="dateAppointment"]')[0].innerText.split(',')[1].trim()
   //URL for billing of first patient on list
-  var newURL = vPath + "billing.do?billRegion=BC&billForm=L23&hotclick=&appointment_no=0&bNewForm=1&status=t" + "&user_no=" + providerID + "&apptProvider_no=" + providerID
-  newURL = newURL + "&demographic_no=" + "187029" + "&demographic_name=" + "Time%2CLfp" + "&appointment_date=" + apptDate
-  window.open(newURL,'Billing Window', 'left = 0,top = 0')
-}
-
-function billingButtonLFP2Click(){
-  let firstPt = document.querySelectorAll('[class="apptLink"]')
-
-  //Check to see if there any patient on the daysheet to begin with
-  if(firstPt.length>0){
-    firstPt = firstPt[0]
-  }else{
-    //console.log("no pts on list")
-    return
-  }
-
-  let extractedURL = firstPt.getAttribute("onclick").split(',')[2]
-
-  //get the demographic_no
-  let demNum = extractedURL.split("demographic_no=")[1].split("&")[0]
-  //Get the name of patient and change name into correct format for URL requirements
-  let NameFormat = firstPt.getAttribute("title").split("\n")[0].toUpperCase()
-  NameFormat = NameFormat.replace(',',"%2C")
-  let apptDate = document.querySelectorAll('[class="dateAppointment"]')[0].innerText.split(',')[1].trim()
-
-  //URL for billing of first patient on list
-  var newURL = vPath + "billing.do?billRegion=BC&billForm=L23&hotclick=&appointment_no=0&bNewForm=1&status=t" + "&user_no=" + providerID + "&apptProvider_no=" + providerID
-  newURL = newURL + "&demographic_no=" + demNum + "&demographic_name=" + NameFormat + "&appointment_date=" + apptDate
-
+  var newURL = vPath + "billing.do?billRegion=CLINICAID&billForm=GP" + "&user_no=" + providerID + "&apptProvider_no=" + providerID
+  newURL = newURL + "&demographic_no=" + "26436" + "&demographic_name=" + "Time%2CLfp" + "&appointment_date=" + apptDate
   window.open(newURL,'Billing Window', 'left = 0,top = 0')
 }
 
 function billingButtonLFP2ClickV2(){
   let apptDate = document.querySelectorAll('[class="dateAppointment"]')[0].innerText.split(',')[1].trim()
   //URL for billing of first patient on list
-  var newURL = vPath + "billing.do?billRegion=BC&billForm=L23&hotclick=&appointment_no=0&bNewForm=1&status=t" + "&user_no=" + providerID + "&apptProvider_no=" + providerID
-  newURL = newURL + "&demographic_no=" + "187029" + "&demographic_name=" + "Time%2CLfp" + "&appointment_date=" + apptDate
+  var newURL = vPath + "billing.do?billRegion=CLINICAID&billForm=GP" + "&user_no=" + providerID + "&apptProvider_no=" + providerID
+  newURL = newURL + "&demographic_no=" + "26436" + "&demographic_name=" + "Time%2CLfp" + "&appointment_date=" + apptDate
 
   window.open(newURL,'Billing Window', 'left = 0,top = 0')
 }
