@@ -6,12 +6,13 @@
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
 // @include     *casemgmt/forward.jsp?*
-// @version     25.01.10.1
+// @version     26.02.26.0
 // ==/UserScript==
 //window.moveTo(300, 100)
 
 //CLAYTON
 //Changelong
+// 26.02.26.0 - changed + to +++ with wider width
 // 25.01.10.1 - chnaged fid mammo
 // 24.07.04.0 - modified for clayton the clinic
 
@@ -483,6 +484,7 @@ function main(){
   //console.log(newDateString)
   //console.log(newestNote)
   //console.log(noteText)
+  changePlusButton()
   
 }
 
@@ -502,6 +504,29 @@ function waitForNote() {
     main()
   }
 };
+
+//change + button to bigger +++
+function changePlusButton(){
+  var boxes = [...document.querySelectorAll('.leftBox')].filter(el =>   el.querySelectorAll(':scope > div').length >= 2);
+
+  // change + to +++ and wider
+  for (let i = 0; i < boxes.length; i++) {
+    var plusDiv = boxes[i].querySelector(':scope > div');
+    plusDiv.style.width="40%"
+    plusDiv.querySelector('a').textContent = '+++'
+  }
+
+  //for the weird few that have a 90% div width. that need to be changed
+  document.querySelectorAll('div').forEach(div => {
+  const child = [...div.children].find(el =>
+    el.tagName === 'DIV' && el.style.width === '90%'
+  );
+    if (child) child.style.width = '60%';
+  });
+
+
+}
+
 
 
 
