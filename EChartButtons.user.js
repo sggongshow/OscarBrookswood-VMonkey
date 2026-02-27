@@ -6,7 +6,7 @@
 // @grant       GM_addStyle
 // @include     *oscarEncounter/IncomingEncounter.do?*
 // @include     *casemgmt/forward.jsp?*
-// @version     26.02.26.0
+// @version     26.02.27.0
 // ==/UserScript==
 //window.moveTo(300, 100)
 
@@ -484,7 +484,7 @@ function main(){
   //console.log(newDateString)
   //console.log(newestNote)
   //console.log(noteText)
-  changePlusButton()
+ 
   
 }
 
@@ -534,6 +534,7 @@ window.addEventListener('load', function() {
   //setTimeout(function(){ main(); }, 1500)
   console.log('test')
   waitForNote()
+  changePlusButton()
 
 
 }, false);
